@@ -1,8 +1,16 @@
 var Department = require('../models/department');
 // List of all Department
-exports.department_list = function(req, res) {
-    res.send('NOT IMPLEMENTED: Department list');
-    };
+exports.department_list = async function(req, res) {
+    try{
+        var theDepartment = await Department.find();
+        res.send(theDepartment);
+        }
+        catch(err){
+        res.status(500);
+        res.send(`{"error": ${err}}`);
+        }
+        };
+
 // for a specific Department.
 exports.department_detail = function(req, res) {
     res.send('NOT IMPLEMENTED: Department detail: ' + req.params.id);
