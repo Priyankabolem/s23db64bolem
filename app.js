@@ -3,14 +3,52 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+require('dotenv').config();
+var mongoose = require('mongoose');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var departmentRouter = require('./routes/department');
 var boardRouter = require('./routes/board');
 var selectorRouter = require('./routes/selector');
+var resourceRouter = require('./routes/resources');
 
 var app = express();
+var Department = require('./models/department');
+const connectionString = process.env.MONGO_CON;
+
+mongoose.connect(connectionString, 
+{useNewUrlParser: true, 
+useUnifiedTopology: true})
+//Get the default connection
+var db = mongoose.connection;
+//Bind connection to error event 
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.once("open", function(){
+console.log("Connection to DB succeeded")})
+
+
+// We can seed the collection if needed on server start
+async function recreateDB(){
+// Delete everything
+await Department.deleteMany();
+let instance1 = new
+Department({ Dept_Name:'Computer Science', Faculty_Strength:120, Total_Intake:3400 });
+
+instance1.save(); 
+
+let instance2 = new
+Department({ Dept_Name:'Electrical Engineering', Faculty_Strength:80,  Total_Intake:2400 });
+
+instance2.save(); 
+
+let instance3 = new
+Department({ Dept_Name:'Chemical Engineering',  Faculty_Strength:50,  Total_Intake:1500 });
+
+instance3.save(); 
+}
+
+let reseed = true;
+if (reseed) { recreateDB();}
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -27,6 +65,7 @@ app.use('/users', usersRouter);
 app.use('/department',departmentRouter);
 app.use('/board',boardRouter);
 app.use('/selector', selectorRouter);
+app.use('/resource', resourceRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
