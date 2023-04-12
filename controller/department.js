@@ -27,11 +27,24 @@ exports.department_list = async function(req, res) {
 // for a specific Department.
 exports.department_detail = function(req, res) {
     res.send('NOT IMPLEMENTED: Department detail: ' + req.params.id);
-    };
+};
  // Handle Department create on POST.
-    exports.department_create_post = function(req, res) {
-    res.send('NOT IMPLEMENTED: Department create POST');
-    };
+exports.department_create_post = async function(req, res) {
+    console.log(req.body)
+    let document = new Department();
+    document.Dept_Name = req.body.Dept_Name;
+    document.Faculty_Strength = req.body.Faculty_Strength;
+    document.Total_Intake = req.body.Total_Intake;
+    try{
+        let result = await document.save();
+        res.send(result);
+    }
+    catch(err){
+        res.status(500);
+        res.send(`{"error": ${err}}`);
+    }
+};
+    
  // Handle Department delete form on DELETE.
     exports.department_delete = function(req, res) {
     res.send('NOT IMPLEMENTED: Department delete DELETE ' + req.params.id);
