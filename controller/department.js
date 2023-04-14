@@ -57,7 +57,23 @@ exports.department_create_post = async function(req, res) {
     res.send('NOT IMPLEMENTED: Department delete DELETE ' + req.params.id);
     };
 // Handle Department update form on PUT.
-    exports.department_update_put = function(req, res) {
-    res.send('NOT IMPLEMENTED: Department update PUT' + req.params.id);
-    };
+exports.department_update_put = async function(req, res) {
+    console.log(`update on id ${req.params.id} with body
+    ${JSON.stringify(req.body)}`)
+     try {
+     let toUpdate = await Department.findById( req.params.id)
+     // Do updates of properties
+     if(req.body.Dept_Name)
+     toUpdate.Dept_Name = req.body.Dept_Name;
+     if(req.body.Faculty_Strength) toUpdate.Faculty_Strength = req.body.Faculty_Strength;
+     if(req.body.Total_Intake) toUpdate.Total_Intake = req.body.Total_Intake;
+     let result = await toUpdate.save();
+     console.log("Sucess " + result)
+     res.send(result)
+     } catch (err) {
+     res.status(500)
+     res.send(`{"error": ${err}: Update for id ${req.params.id}
+    failed`);
+     }
+};
     
