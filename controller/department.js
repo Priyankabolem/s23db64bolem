@@ -84,3 +84,19 @@ exports.department_update_put = async function (req, res) {
     failed`);
     }
 };
+
+// Handle a show one view with id specified by query
+exports.department_view_one_Page = async function(req, res) {
+    console.log("single view for id " + req.query.id)
+    try{
+    const result = await Department.findById(req.query.id);
+    console.log(result);
+    res.render('departmentdetail', 
+   { title: 'Department Detail', toShow: result });
+    }
+    catch(err){
+    res.status(500)
+    res.send(`{'error': '${err}'}`);
+    }
+}
+    
