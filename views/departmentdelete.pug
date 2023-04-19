@@ -1,0 +1,50 @@
+extends layout
+block content
+  h1= title
+  if (toShow == null)
+    h2 No instance to delete
+  else
+    - let departmentId = toShow._id
+    - let departmentName = toShow.Dept_Name
+    - let departmentStrength = toShow.Faculty_Strength
+    - let departmentIntake = toShow.Total_Intake
+    - let actionid = "/resource/department/" + departmentId
+    script.
+      let actionid = "#{actionid}"
+    div
+      div.row
+        div(class='departmentAttr mr-3') Department ID is:
+        div #{departmentId}
+      div.row
+        div(class='departmentAttr mr-3') Department Type is:
+        div #{departmentName}
+      div.row
+        div(class='departmentAttr mr-3') Department Size is:
+        div #{departmentStrength}
+      div.row
+        div(class='departmentAttr mr-3') Department Cost is:
+        div #{departmentIntake}
+      button(class="btn btn-danger m-2" onclick="deleteOnid()") Delete
+      button(class="btn btn-secondary m-2" onclick="cancel()") Cancel
+    script.
+      function cancel() {
+        // Go back to the home page for the costume collection
+        window.location.href='/department'
+      }
+    script.
+      function deleteOnid() {
+        console.log("starting delete")
+        // delete first
+        fetch(actionid, {
+          method: 'DELETE' // Don't need a body for the delete
+        }).then((resp) => {
+          return resp.json(); // or resp.text() or whatever the server sends
+        }).then((body) => {
+          alert("Delete succeded")
+          window.location.href='/costumes'
+          // TODO handle body
+        }).catch((error) => {
+          // TODO handle error
+          alert("Delete failed " + error )
+        });
+      }

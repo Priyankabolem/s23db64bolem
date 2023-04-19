@@ -103,7 +103,7 @@ exports.department_view_one_Page = async function(req, res) {
 // Handle building the view for creating a department.
 // No body, no in path parameter, no query.
 // Does not need to be async
-exports.department_create_Page = function(req, res) {
+exports.department_create_Page = async function(req, res) {
     console.log("create view")
     try{
     res.render('departmentcreate', { title: 'Department Create'});
@@ -113,5 +113,32 @@ exports.department_create_Page = function(req, res) {
     res.send(`{'error': '${err}'}`);
     }
    };
+   // Handle building the view for updating a Department.
+// query provides the id
+exports.department_update_Page = async function(req, res) {
+    console.log("update view for item "+req.query.id)
+    try{
+    let result = await Department.findById(req.query.id)
+    res.render('departmentupdate', { title: 'Department Update', toShow: result });
+    }
+    catch(err){
+    res.status(500)
+    res.send(`{'error': '${err}'}`);
+    }
+   };
+
+   // Handle a delete one view with id from query
+exports.department_delete_Page = async function(req, res) {
+    console.log("Delete view for id " + req.query.id)
+    try{
+    result = await Department.findById(req.query.id)
+    res.render('departmentdelete', { title: 'Department Delete', toShow: 
+   result });
+    }
+    catch(err){
+    res.status(500)
+    res.send(`{'error': '${err}'}`);
+    }
+   }
 
     
