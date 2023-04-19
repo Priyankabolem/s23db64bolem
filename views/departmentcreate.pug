@@ -1,0 +1,32 @@
+extends layout
+
+block content
+  h1= title
+  form(id='DepartmentForm', action='/resource/department', method='POST')
+    div.form-group
+      label.departmentAttr(for='Dept_Name') Department type
+      input#Dept_Name(type='text', name='Dept_Name')
+    div.form-group
+      label.departmentAttr(for='Faculty_Strength') Faculty Strength
+      input#Faculty_Strength(type='text', name='Faculty_Strength')
+    div.form-group
+      label.departmentAttr(for='Total_Intake')  Total Intake
+      input#Total_Intake(type='number', name='Total_Intake')
+      input(type='submit')
+    script.
+      document.forms.DepartmentForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        // TODO do something here to show user that form is being submitted
+        fetch(event.target.action, {
+          method: 'POST',
+          body: new URLSearchParams(new FormData(event.target))
+        }).then((resp) => {
+          return resp.json(); // or resp.text() or whatever the server sends
+        }).then((body) => {
+          alert('Save succeeded');
+          // TODO handle body
+        }).catch((error) => {
+          // TODO handle error
+          alert('Save failed ' + error);
+        });
+      });
