@@ -1,40 +1,43 @@
 extends layout
 block content
   h1= title
-  - let departmentId = toShow._id
-  - let departmentName = toShow.Dept_Name
-  - let departmentStrength = toShow.Faculty_Strength
-  - let departmentIntake = toShow.Total_Intake
+   if (toShow == null)
+    h2 No instance to update
+   else
+    - let departmentId = toShow._id
+    - let departmentName = toShow.Dept_Name
+    - let departmentStrength = toShow.Faculty_Strength
+    - let departmentIntake = toShow.Total_Intake
 
-  div.row(class='mb-2')
-    div.mr-1 ID is
-    div #{departmentId}
-  - let actionid = "/resource/department/" + departmentId
-  form(id='DepartmentForm', action= actionid, method="PUT")
-    div.form-group
-      label.departmentAttr(for='departmentName') Department type
-      input#departmentName(type='text', name='departmentName', value= departmentName )
-    div.form-group
-      label.departmentAttr(for='departmentStrength') Department strength
-      input#departmentStrength(type='text', name='departmentStrength', value= departmentStrength)
-    div.form-group
-      label.departmentAttr(for='departmentIntake') Department cost
-      input#departmentIntake(type='number', name='departmentIntake', value= departmentIntake )
-      input(type="submit")
-    script.
-      document.forms['DepartmentForm'].addEventListener('submit', (event) => {
-        event.preventDefault();
-        // TODO do something here to show user that form is being submitted
-        fetch(event.target.action, {
-          method: 'PUT',
-          body: new URLSearchParams(new FormData(event.target)) // event.target is the form
-        }).then((resp) => {
-          return resp.json(); // or resp.text() or whatever the server sends
-        }).then((body) => {
-          alert("Update succeded")
-          // TODO handle body
-        }).catch((error) => {
-          // TODO handle error
-          alert("Update failed " + error )
+    div.row(class='mb-2')
+      div.mr-1 ID is
+      div #{departmentId}
+    - let actionid = "/resource/department/" + departmentId
+    form(id='DepartmentForm', action= actionid, method="PUT")
+      div.form-group
+        label.departmentAttr(for='departmentName') Department type
+        input#departmentName(type='text', name='departmentName', value= departmentName )
+      div.form-group
+        label.departmentAttr(for='departmentStrength') Department strength
+        input#departmentStrength(type='text', name='departmentStrength', value= departmentStrength)
+      div.form-group
+        label.departmentAttr(for='departmentIntake') Department cost
+        input#departmentIntake(type='number', name='departmentIntake', value= departmentIntake )
+        input(type="submit")
+      script.
+        document.forms['DepartmentForm'].addEventListener('submit', (event) => {
+          event.preventDefault();
+          // TODO do something here to show user that form is being submitted
+          fetch(event.target.action, {
+            method: 'PUT',
+            body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+          }).then((resp) => {
+            return resp.json(); // or resp.text() or whatever the server sends
+          }).then((body) => {
+            alert("Update succeded")
+            // TODO handle body
+          }).catch((error) => {
+            // TODO handle error
+            alert("Update failed " + error )
+          });
         });
-      });

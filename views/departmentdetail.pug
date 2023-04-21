@@ -1,0 +1,23 @@
+extends layout
+block content
+ h1= title
+  if (toShow == null)
+    h2 No instance to fetch
+  else
+    - let departmentId = toShow._id
+    - let departmentName = toShow.Dept_Name
+    - let departmentStrength = toShow.Faculty_Strength
+    - let departmentIntake = toShow.Total_Intake
+    div
+    div.row
+    div(class='departmentAttr mr-3') Department ID is:
+    div #{departmentId}
+    div.row
+    div(class='departmentAttr mr-3') Department Type is:
+    div #{departmentName}
+    div.row
+    div(class='departmentAttr mr-3') Department Size is:
+    div #{departmentStrength}
+    div.row
+    div(class='departmentAttr mr-3') Department Cost is:
+    div #{departmentIntake}

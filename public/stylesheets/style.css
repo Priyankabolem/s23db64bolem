@@ -7,9 +7,31 @@ a {
   color: #00B7FF;
 }
 
+h1{
+  text-align: center;
+}
+#DepartmentForm{
+  border:1px solid #ccc;
+  background-color:white ;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 60px;
+}
+
+form {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+}
+
 
 .departmentAttr {
+ 
   background-color: aquamarine;
   width: 120px;
+
  }
  
