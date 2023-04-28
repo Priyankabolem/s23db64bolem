@@ -71,10 +71,12 @@ exports.department_update_put = async function (req, res) {
     try {
         let toUpdate = await Department.findById(req.params.id)
         // Do updates of properties
-        if (req.body.Dept_Name)
-            toUpdate.Dept_Name = req.body.Dept_Name;
-        if (req.body.Faculty_Strength) toUpdate.Faculty_Strength = req.body.Faculty_Strength;
-        if (req.body.Total_Intake) toUpdate.Total_Intake = req.body.Total_Intake;
+        if (req.body.departmentName)
+            toUpdate.Dept_Name = req.body.departmentName;
+        if (req.body.departmentStrength) 
+        toUpdate.Faculty_Strength = req.body.departmentStrength;
+        if (req.body.departmentIntake) 
+        toUpdate.Total_Intake = req.body.departmentIntake;
         let result = await toUpdate.save();
         console.log("Sucess " + result)
         res.send(result)
@@ -103,7 +105,7 @@ exports.department_view_one_Page = async function(req, res) {
 // Handle building the view for creating a department.
 // No body, no in path parameter, no query.
 // Does not need to be async
-exports.department_create_Page = async function(req, res) {
+exports.department_create_Page = function(req, res) {
     console.log("create view")
     try{
     res.render('departmentcreate', { title: 'Department Create'});
@@ -113,7 +115,7 @@ exports.department_create_Page = async function(req, res) {
     res.send(`{'error': '${err}'}`);
     }
    };
-   // Handle building the view for updating a Department.
+// Handle building the view for updating a Department.
 // query provides the id
 exports.department_update_Page = async function(req, res) {
     console.log("update view for item "+req.query.id)
@@ -126,8 +128,7 @@ exports.department_update_Page = async function(req, res) {
     res.send(`{'error': '${err}'}`);
     }
    };
-
-   // Handle a delete one view with id from query
+// Handle a delete one view with id from query
 exports.department_delete_Page = async function(req, res) {
     console.log("Delete view for id " + req.query.id)
     try{
@@ -140,5 +141,5 @@ exports.department_delete_Page = async function(req, res) {
     res.send(`{'error': '${err}'}`);
     }
    }
-
+   
     
